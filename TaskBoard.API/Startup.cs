@@ -13,7 +13,7 @@ namespace Taskboard
 {
     public class Startup : FunctionsStartup
     {
-        public override void Configured(IFunctionsHostBuilder builder)
+        public override void Configure(IFunctionsHostBuilder builder)
         {
             var ctx = builder.GetContext();
             var config = ctx.Configuration;
