@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using TaskBoard.API.Models;
 using TaskBoard.API.Services;
 using TaskBoard.API.Services.Abstractions;
 

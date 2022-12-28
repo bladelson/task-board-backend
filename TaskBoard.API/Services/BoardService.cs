@@ -41,6 +41,23 @@ namespace TaskBoard.API.Services
             return await collection.AsQueryable().FirstOrDefaultAsync(x => x.Id == boardId);
         }
 
+        public async Task<bool> AddCardToBoardAsync(Guid boardId, Card card)
+        {
+            var filter = Builders<Board>.Filter.Eq(x => x.Id, boardId);
+            var update = Builders<Board>.Update.AddToSet(x => x.Cards, card);
+
+            var collection = GetBoardCollection();
+            var result = await collection.UpdateOneAsync(filter, update);
+
+            return result.IsAcknowledged;
+        }
+
+        public async Task<IEnumerable<Card>> GetCardsForBoard(Guid boardId)
+        {
+            var board = await GetBoardByIdAsync(boardId);
+            return board.Cards;
+        }
+
         private IMongoCollection<Board> GetBoardCollection() => GetCollection<Board>(BOARD_COLLECTION);
     }
 }

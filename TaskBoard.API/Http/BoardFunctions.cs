@@ -10,6 +10,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using TaskBoard.API.Models;
+using TaskBoard.API.Models.DTO;
 using TaskBoard.API.Services.Abstractions;
 
 namespace TaskBoard.API.Http
@@ -28,10 +29,10 @@ namespace TaskBoard.API.Http
         {
             var body = await request.GetBodyAsync();
 
-            Board board;
+            BoardDTO newBoard;
             try
             {
-                board = JsonSerializer.Deserialize<Board>(body);
+                newBoard = JsonSerializer.Deserialize<BoardDTO>(body);
             }
             catch (Exception ex)
             {
@@ -39,9 +40,17 @@ namespace TaskBoard.API.Http
                 return new BadRequestObjectResult("invalid request body");
             }
 
-            await _boards.InsertBoardAsync(board);
+            var mongoBoard = new Board()
+            {
+                Id = Guid.NewGuid(),
+                Title = newBoard.Title,
+                Description = newBoard.Description,
+                IsDeleted = false
+            };
 
-            return new OkObjectResult(new { Id = board.Id });
+            await _boards.InsertBoardAsync(mongoBoard);
+
+            return new OkObjectResult(new { Id = mongoBoard.Id });
         }
 
         [FunctionName("getAllBoards")]
@@ -51,7 +60,12 @@ namespace TaskBoard.API.Http
             if (!boards.Any())
                 return new NoContentResult();
 
-            return new OkObjectResult(boards);
+            return new OkObjectResult(boards.Select(x => new BoardDTO
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Description = x.Description
+            }));
         }
 
         [FunctionName("getBoardById")]
@@ -65,7 +79,12 @@ namespace TaskBoard.API.Http
             if (board == null)
                 return new NotFoundObjectResult("board not found");
 
-            return new OkObjectResult(board);
+            return new OkObjectResult(new BoardDTO()
+            {
+                Id = board.Id,
+                Title = board.Title,
+                Description = board.Description
+            });
         }
     }
 }

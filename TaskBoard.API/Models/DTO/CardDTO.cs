@@ -3,25 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using MongoDB.Bson.Serialization.Attributes;
 
-namespace TaskBoard.API.Models
+namespace TaskBoard.API.Models.DTO
 {
-    public class Board
+    public class CardDTO
     {
-        [BsonId]
+        [JsonPropertyName("id")]
         public Guid Id { get; set; }
 
         [JsonPropertyName("title")]
-        [BsonElement("title")]
         public string Title { get; set; }
 
         [JsonPropertyName("description")]
-        [BsonElement("description")]
         public string Description { get; set; }
-
-        [JsonPropertyName("isDeleted")]
-        [BsonElement("isDeleted")]
-        public bool IsDeleted { get; set; }
     }
 }

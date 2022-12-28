@@ -11,5 +11,7 @@ namespace TaskBoard.API.Services.Abstractions
         Task InsertBoardAsync(Board board);
         Task<Board> GetBoardByIdAsync(Guid boardId);
         IEnumerable<Board> GetAllBoards();
+        Task<bool> AddCardToBoardAsync(Guid boardId, Card card);
+        Task<IEnumerable<Card>> GetCardsForBoard(Guid boardId);
     }
 }
