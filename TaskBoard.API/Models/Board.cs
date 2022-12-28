@@ -7,20 +7,21 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace TaskBoard.API.Models
 {
-    public class Card
+    public class Board
     {
         [BsonId]
-        public Guid Id { get; set; } = Guid.NewGuid();
-
-        [JsonPropertyName("boardId")]
-        public Guid BoardId { get; set; }
+        public Guid Id { get; set; }
 
         [JsonPropertyName("title")]
+        [BsonElement("title")]
         public string Title { get; set; }
 
         [JsonPropertyName("description")]
+        [BsonElement("description")]
         public string Description { get; set; }
 
-        //todo color, priority, other stuff?
+        [JsonPropertyName("isDeleted")]
+        [BsonElement("isDeleted")]
+        public bool IsDeleted { get; set; }
     }
 }

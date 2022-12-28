@@ -6,6 +6,8 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using TaskBoard.API.Services;
+using TaskBoard.API.Services.Abstractions;
 
 [assembly: FunctionsStartup(typeof(Taskboard.Startup))]
 
@@ -22,9 +24,13 @@ namespace Taskboard
 
         private void BuildServices(IServiceCollection services, IConfiguration config)
         {
+            services.AddLogging();
+
             var mongoConnectionString = config.GetValue<string>("MongoConnectionString");
             var mongoClient = new MongoClient(mongoConnectionString);
-            services.AddSingleton(mongoClient);
+            services.AddSingleton(typeof(IMongoClient), mongoClient);
+
+            services.AddSingleton<IBoardService, BoardService>();
         }
     }
 }
