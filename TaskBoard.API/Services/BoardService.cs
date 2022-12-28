@@ -24,21 +24,23 @@ namespace TaskBoard.API.Services
         public async Task InsertBoardAsync(Board board)
         {
             board = board ?? throw new ArgumentNullException(nameof(board));
-            var collection = GetCollection<Board>(BOARD_COLLECTION);
+            var collection = GetBoardCollection();
 
             await collection.InsertOneAsync(board);
         }
 
         public IEnumerable<Board> GetAllBoards()
         {
-            var collection = GetCollection<Board>(BOARD_COLLECTION);
+            var collection = GetBoardCollection();
             return collection.AsQueryable().Where(x => !x.IsDeleted);
         }
 
         public async Task<Board> GetBoardByIdAsync(Guid boardId)
         {
-            var collection = GetCollection<Board>(BOARD_COLLECTION);
+            var collection = GetBoardCollection();
             return await collection.AsQueryable().FirstOrDefaultAsync(x => x.Id == boardId);
         }
+
+        private IMongoCollection<Board> GetBoardCollection() => GetCollection<Board>(BOARD_COLLECTION);
     }
 }
