@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "TaskBoard_API": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7239",
+      "launchBrowser": false
+    }
+  }
+}
