@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 
 namespace TaskBoard.Http
 {
-    public class Health
+    public class HealthFunctions
     {
         [FunctionName("health")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest request, ILogger log)
+        public IActionResult Health([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest request, ILogger log)
         {
             return new OkResult();
         }
