@@ -14,11 +14,11 @@ using TaskBoard.API.Services.Abstractions;
 
 namespace TaskBoard.API.Http
 {
-    public class Boards
+    public class BoardFunctions
     {
         private readonly IBoardService _boards;
 
-        public Boards(IBoardService boards)
+        public BoardFunctions(IBoardService boards)
         {
             _boards = boards;
         }
@@ -45,7 +45,7 @@ namespace TaskBoard.API.Http
         }
 
         [FunctionName("getAllBoards")]
-        public IActionResult GetAllBoardsAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "boards")] HttpRequest request, ILogger log)
+        public IActionResult GetAllBoards([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "boards")] HttpRequest request, ILogger log)
         {
             var boards = _boards.GetAllBoards();
             if (!boards.Any())
